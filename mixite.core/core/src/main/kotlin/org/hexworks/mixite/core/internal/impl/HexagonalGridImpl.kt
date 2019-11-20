@@ -13,32 +13,12 @@ class HexagonalGridImpl<T : SatelliteData>(builder: HexagonalGridBuilder<T>) : H
     private val hexagonDataStorage: HexagonDataStorage<T> = builder.getHexagonDataStorage()
 
     override val hexagons: Iterable<Hexagon<T>>
-        get() {
-            val coordIter = hexagonDataStorage.coordinates.iterator()
-
-            return object : Iterable<Hexagon<T>> {
-                override fun iterator(): Iterator<Hexagon<T>> {
-                    return object : Iterator<Hexagon<T>> {
-                        override fun hasNext(): Boolean {
-                            return coordIter.hasNext()
-                        }
-
-                        override fun next(): Hexagon<T> {
-                            return hexagon(coordIter.next())
-                        }
-                    }
-                }
-            }
-        }
+        get() = hexagonsFor(hexagonDataStorage.coordinates)
 
     init {
         for (cubeCoordinate in builder.gridLayoutStrategy.fetchGridCoordinates(builder)) {
             this@HexagonalGridImpl.hexagonDataStorage.addCoordinate(cubeCoordinate)
         }
-    }
-
-    private fun hexagon(coordinate: CubeCoordinate): HexagonImpl<T> {
-        return HexagonImpl(gridData, coordinate, hexagonDataStorage)
     }
 
     override fun getHexagonsByCubeRange(from: CubeCoordinate, to: CubeCoordinate): Iterable<Hexagon<T>> {
@@ -53,25 +33,11 @@ class HexagonalGridImpl<T : SatelliteData>(builder: HexagonalGridBuilder<T>) : H
             }
         }
 
-        val coordIter = coordinates.iterator()
-
-        return object : Iterable<Hexagon<T>> {
-            override fun iterator(): Iterator<Hexagon<T>> {
-                return object : Iterator<Hexagon<T>> {
-                    override fun hasNext(): Boolean {
-                        return coordIter.hasNext()
-                    }
-
-                    override fun next(): Hexagon<T> {
-                        return hexagon(coordIter.next())
-                    }
-                }
-            }
-        }
+        return hexagonsFor(coordinates)
     }
 
     override fun getHexagonsByOffsetRange(gridXFrom: Int, gridXTo: Int, gridYFrom: Int, gridYTo: Int): Iterable<Hexagon<T>> {
-        val coords = ArrayList<CubeCoordinate>()
+        val coordinates = ArrayList<CubeCoordinate>()
 
         for (gridX in gridXFrom..gridXTo) {
             for (gridY in gridYFrom..gridYTo) {
@@ -79,26 +45,11 @@ class HexagonalGridImpl<T : SatelliteData>(builder: HexagonalGridBuilder<T>) : H
                 val cubeZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(gridX, gridY, gridData.orientation)
                 val coord = CubeCoordinate.fromCoordinates(cubeX, cubeZ)
                 if (containsCubeCoordinate(coord)) {
-                    coords.add(coord)
+                    coordinates.add(coord)
                 }
             }
         }
-
-        val coordIter = coords.iterator()
-
-        return object : Iterable<Hexagon<T>> {
-            override fun iterator(): Iterator<Hexagon<T>> {
-                return object : Iterator<Hexagon<T>> {
-                    override fun hasNext(): Boolean {
-                        return coordIter.hasNext()
-                    }
-
-                    override fun next(): Hexagon<T> {
-                        return hexagon(coordIter.next())
-                    }
-                }
-            }
-        }
+        return hexagonsFor(coordinates)
     }
 
     override fun containsCubeCoordinate(coordinate: CubeCoordinate): Boolean {
@@ -176,6 +127,28 @@ class HexagonalGridImpl<T : SatelliteData>(builder: HexagonalGridBuilder<T>) : H
                 return nearest // No direct match, pick the nearest one
             }
             current = _getByCubeCoordinate(_getNeighborByIndex(centerHex, i++))
+        }
+    }
+
+    private fun hexagon(coordinate: CubeCoordinate): HexagonImpl<T> =
+            HexagonImpl(gridData, coordinate, hexagonDataStorage)
+
+    private fun hexagonsFor(coordinates: Iterable<CubeCoordinate>): Iterable<Hexagon<T>> {
+        // TODO return coordinates.map { c -> hexagon(c) }
+        val iter = coordinates.iterator()
+
+        return object : Iterable<Hexagon<T>> {
+            override fun iterator(): Iterator<Hexagon<T>> {
+                return object : Iterator<Hexagon<T>> {
+                    override fun hasNext(): Boolean {
+                        return iter.hasNext()
+                    }
+
+                    override fun next(): Hexagon<T> {
+                        return hexagon(iter.next())
+                    }
+                }
+            }
         }
     }
 
