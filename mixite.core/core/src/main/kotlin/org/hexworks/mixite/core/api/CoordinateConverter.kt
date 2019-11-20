@@ -24,7 +24,7 @@ class CoordinateConverter {
          */
         @JvmStatic
         fun convertOffsetCoordinatesToCubeX(offsetX: Int, offsetY: Int, orientation: HexagonOrientation): Int {
-            return if (HexagonOrientation.FLAT_TOP.equals(orientation)) offsetX else offsetX - offsetY / 2
+            return if (HexagonOrientation.FLAT_TOP === orientation) offsetX else offsetX - offsetY / 2
         }
 
         /**
@@ -38,7 +38,7 @@ class CoordinateConverter {
          */
         @JvmStatic
         fun convertOffsetCoordinatesToCubeZ(offsetX: Int, offsetY: Int, orientation: HexagonOrientation): Int {
-            return if (HexagonOrientation.FLAT_TOP.equals(orientation)) offsetY - offsetX / 2 else offsetY
+            return if (HexagonOrientation.FLAT_TOP === orientation) offsetY - offsetX / 2 else offsetY
         }
     }
 

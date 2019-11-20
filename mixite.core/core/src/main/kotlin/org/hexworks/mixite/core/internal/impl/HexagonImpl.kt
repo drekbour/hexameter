@@ -63,7 +63,7 @@ class HexagonImpl<T : SatelliteData> internal constructor(
     }
 
     private fun calculateCenter(): Point {
-        return if (HexagonOrientation.FLAT_TOP.equals(sharedData.orientation)) {
+        return if (HexagonOrientation.FLAT_TOP === sharedData.orientation) {
             Point.fromPosition(
                     cubeCoordinate.gridX * sharedData.hexagonWidth + sharedData.radius,
                     cubeCoordinate.gridZ * sharedData.hexagonHeight + cubeCoordinate.gridX * sharedData.hexagonHeight / 2 + sharedData.hexagonHeight / 2
