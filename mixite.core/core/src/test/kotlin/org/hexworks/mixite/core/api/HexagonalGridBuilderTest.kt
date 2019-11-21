@@ -3,7 +3,10 @@ package org.hexworks.mixite.core.api
 import org.hexworks.mixite.core.api.HexagonOrientation.FLAT_TOP
 import org.hexworks.mixite.core.api.HexagonalGridLayout.RECTANGULAR
 import org.hexworks.mixite.core.api.HexagonalGridLayout.TRIANGULAR
+import org.hexworks.mixite.core.api.contract.HexagonDataStorage
 import org.hexworks.mixite.core.api.contract.SatelliteData
+import org.hexworks.mixite.core.api.defaults.DefaultHexagonDataStorage
+import org.hexworks.mixite.core.api.defaults.DefaultSatelliteData
 import kotlin.test.*
 
 class HexagonalGridBuilderTest {
@@ -56,6 +59,18 @@ class HexagonalGridBuilderTest {
     fun shouldBuildWhenProperParametersArePresent() {
         val grid = target.build()
         assertNotNull(grid)
+    }
+
+    @Test
+    fun shouldAllowAnyDataStorage() {
+        val storage: HexagonDataStorage<DefaultSatelliteData> = DefaultHexagonDataStorage()
+        HexagonalGridBuilder<DefaultSatelliteData>()
+                .setGridHeight(3)
+                .setGridWidth(3)
+                .setRadius(2.0)
+                .setHexagonDataStorage(storage)
+                .build()
+        assertTrue(storage.containsCoordinate(CubeCoordinate.fromCoordinates(1, 1)))
     }
 
     companion object {
