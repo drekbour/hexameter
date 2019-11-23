@@ -96,14 +96,8 @@ class HexagonImpl<T : SatelliteData> internal constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as HexagonImpl<*>
-
-        if (cubeCoordinate != other.cubeCoordinate) return false
-
-        return true
+        if (other == null || other !is HexagonImpl<*>) return false
+        return cubeCoordinate == other.cubeCoordinate
     }
 
     override fun hashCode(): Int {
