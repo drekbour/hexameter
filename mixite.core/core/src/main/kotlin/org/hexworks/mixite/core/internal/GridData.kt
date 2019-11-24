@@ -8,7 +8,7 @@ import kotlin.math.sqrt
  * Immutable class which holds the shared data between the [org.hexworks.mixite.core.api.Hexagon]s of a
  * [org.hexworks.mixite.core.api.HexagonalGrid] and the HexagonalGrid's own immutable properties.
  */
-class GridData(val orientation: HexagonOrientation,
+data class GridData(val orientation: HexagonOrientation,
                     val gridLayout: HexagonalGridLayout,
                     val radius: Double,
                     val gridWidth: Int,
@@ -19,15 +19,13 @@ class GridData(val orientation: HexagonOrientation,
     val innerRadius: Double
 
     init {
+        innerRadius = calculateWidth(radius) / 2
         if (orientation === HexagonOrientation.FLAT_TOP) {
-            // FIXME These are the wrong way around! flat-top => width > height
             hexagonHeight = calculateHeight(radius)
             hexagonWidth = calculateWidth(radius)
-            innerRadius = hexagonWidth / 2
         } else {
             hexagonHeight = calculateWidth(radius)
             hexagonWidth = calculateHeight(radius)
-            innerRadius = hexagonHeight / 2
         }
     }
 
