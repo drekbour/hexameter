@@ -133,8 +133,8 @@ class DefaultHexagonDataStorageTest {
 
     companion object {
 
-        private val TEST_CUBE_COORDINATE = CubeCoordinate.fromCoordinates(1, 1)
-        private val ANOTHER_TEST_CUBE_COORDINATE = CubeCoordinate.fromCoordinates(2, 1)
+        private val TEST_CUBE_COORDINATE = CubeCoordinate(1, 1)
+        private val ANOTHER_TEST_CUBE_COORDINATE = CubeCoordinate(2, 1)
     }
 
 }

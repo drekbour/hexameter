@@ -15,7 +15,7 @@ class RectangularGridLayoutStrategy : GridLayoutStrategy() {
                 for (x in 0 until gridWidth) {
                     val gridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(x, y, orientation)
                     val gridZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(x, y, orientation)
-                    coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+                    coords.add(CubeCoordinate(gridX, gridZ))
                 }
             }
             return coords

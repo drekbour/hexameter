@@ -1,7 +1,6 @@
 package org.hexworks.mixite.core.api
 
 import org.hexworks.mixite.core.api.CubeCoordinate.Companion.fromAxialKey
-import org.hexworks.mixite.core.api.CubeCoordinate.Companion.fromCoordinates
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -41,7 +40,7 @@ class CoordinateConverterTest {
 
     @Test
     fun shouldCreateKeyFromCoordinate() {
-        assertEquals(TEST_KEY, fromCoordinates(TEST_GRID_X, TEST_GRID_Z).toAxialKey())
+        assertEquals(TEST_KEY, CubeCoordinate(TEST_GRID_X, TEST_GRID_Z).toAxialKey())
     }
 
     @Test

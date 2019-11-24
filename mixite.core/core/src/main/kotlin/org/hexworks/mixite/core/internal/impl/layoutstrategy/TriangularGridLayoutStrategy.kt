@@ -14,7 +14,7 @@ class TriangularGridLayoutStrategy : GridLayoutStrategy() {
             for (gridZ in 0 until gridSize) {
                 val endX = gridSize - gridZ
                 for (gridX in 0 until endX) {
-                    coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+                    coords.add(CubeCoordinate(gridX, gridZ))
                 }
             }
             return coords

@@ -13,7 +13,7 @@ class CubeCoordinateTest {
 
     @BeforeTest
     fun setUp() {
-        target = fromCoordinates(TEST_GRID_X, TEST_GRID_Z)
+        target = CubeCoordinate(TEST_GRID_X, TEST_GRID_Z)
     }
 
     @Test
@@ -33,12 +33,12 @@ class CubeCoordinateTest {
 
     @Test
     fun shouldReturnProperKeyWhenToKeyIsCalled() {
-        assertEquals(TEST_GRID_X.toString() + "," + TEST_GRID_Z, target.toAxialKey())
+        assertEquals("$TEST_GRID_X,$TEST_GRID_Z", target.toAxialKey())
     }
 
     @Test
     fun shouldCreateProperAxialCoordinateWhenFromKeyIsCalled() {
-        val result = fromAxialKey(TEST_GRID_X.toString() + "," + TEST_GRID_Z)
+        val result = fromAxialKey("$TEST_GRID_X,$TEST_GRID_Z")
         assertEquals(target.gridX, result.gridX)
         assertEquals(target.gridZ, result.gridZ)
     }

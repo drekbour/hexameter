@@ -1,6 +1,6 @@
 package org.hexworks.mixite.core.internal.impl
 
-import org.hexworks.mixite.core.api.CubeCoordinate.Companion.fromCoordinates
+import org.hexworks.mixite.core.api.CubeCoordinate
 import org.hexworks.mixite.core.api.Hexagon
 import org.hexworks.mixite.core.api.HexagonOrientation.FLAT_TOP
 import org.hexworks.mixite.core.api.HexagonOrientation.POINTY_TOP
@@ -115,7 +115,7 @@ class HexagonImplTest {
         private const val EXPECTED_FLAT_CENTER_Y = 78
         private val TEST_POINTY_DATA = GridData(POINTY_TOP, RECTANGULAR, TEST_RADIUS, 1, 1)
         private val TEST_FLAT_DATA = GridData(FLAT_TOP, RECTANGULAR, TEST_RADIUS, 1, 1)
-        private val TEST_COORDINATE = fromCoordinates(TEST_GRID_X, TEST_GRID_Z)
+        private val TEST_COORDINATE = CubeCoordinate(TEST_GRID_X, TEST_GRID_Z)
         private val TEST_SATELLITE_DATA = DefaultSatelliteData()
         private val TEST_SATELLITE_DATA_MAP = DefaultHexagonDataStorage<DefaultSatelliteData>()
         private val EXPECTED_FLAT_POINTS = arrayOf(Point(50.0, 78.0), Point(45.0, 87.0), Point(35.0, 87.0), Point(30.0, 78.0), Point(35.0, 69.0), Point(45.0, 69.0))

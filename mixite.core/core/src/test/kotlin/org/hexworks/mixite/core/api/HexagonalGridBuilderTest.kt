@@ -70,7 +70,7 @@ class HexagonalGridBuilderTest {
                 .setHexagonDataStorage(storage)
                 .build()
 
-        assertTrue(storage.containsCoordinate(CubeCoordinate.fromCoordinates(1, 1)))
+        assertTrue(storage.containsCoordinate(CubeCoordinate(1, 1)))
     }
 
     companion object {

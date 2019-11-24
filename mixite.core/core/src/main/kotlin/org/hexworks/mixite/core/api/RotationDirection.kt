@@ -11,8 +11,8 @@ enum class RotationDirection(
         internal val rotate: (CubeCoordinate) -> CubeCoordinate
 ) {
 
-    RIGHT({ coord -> CubeCoordinate.fromCoordinates(-coord.gridZ, -coord.gridY) }),
-    LEFT({ coord -> CubeCoordinate.fromCoordinates(-coord.gridY, -coord.gridX) });
+    RIGHT({ coord -> CubeCoordinate(-coord.gridZ, -coord.gridY) }),
+    LEFT({ coord -> CubeCoordinate(-coord.gridY, -coord.gridX) });
 
     /**
      * Calculates a rotation (right or left) of `coord`.

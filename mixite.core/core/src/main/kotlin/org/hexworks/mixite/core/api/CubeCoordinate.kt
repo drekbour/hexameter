@@ -8,11 +8,9 @@ import kotlin.jvm.JvmStatic
  * Note that the y coordinate is not stored in this object since it can be
  * calculated.
  */
-@Suppress("DataClassPrivateConstructor")
-data class CubeCoordinate private constructor(val gridX: Int, val gridZ: Int) {
+data class CubeCoordinate internal constructor(val gridX: Int, val gridZ: Int) {
 
-    val gridY: Int
-        get() = -(gridX + gridZ)
+    val gridY = -(gridX + gridZ)
 
     /**
      * Creates an axial (x, z) key which can be used in key-value storage objects based on this
@@ -20,9 +18,7 @@ data class CubeCoordinate private constructor(val gridX: Int, val gridZ: Int) {
      *
      * @return key
      */
-    fun toAxialKey(): String {
-        return gridX.toString() + SEP + gridZ
-    }
+    fun toAxialKey() = "$gridX,$gridZ"
 
     companion object {
 
@@ -41,7 +37,7 @@ data class CubeCoordinate private constructor(val gridX: Int, val gridZ: Int) {
             val result: CubeCoordinate
             try {
                 val coords = axialKey.split(SEP.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                result = fromCoordinates(coords[0].toInt(), coords[1].toInt())
+                result = CubeCoordinate(coords[0].toInt(), coords[1].toInt())
             } catch (e: Exception) {
                 throw IllegalArgumentException("Failed to create CubeCoordinate from key: $axialKey", e)
             }

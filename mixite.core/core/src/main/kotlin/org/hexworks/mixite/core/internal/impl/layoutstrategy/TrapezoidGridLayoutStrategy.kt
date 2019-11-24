@@ -12,7 +12,7 @@ class TrapezoidGridLayoutStrategy : GridLayoutStrategy() {
             val coords = ArrayList<CubeCoordinate>(gridHeight * gridWidth)
             for (gridZ in 0 until gridHeight) {
                 for (gridX in 0 until gridWidth) {
-                    coords.add(CubeCoordinate.fromCoordinates(gridX, gridZ))
+                    coords.add(CubeCoordinate(gridX, gridZ))
                 }
             }
             return coords

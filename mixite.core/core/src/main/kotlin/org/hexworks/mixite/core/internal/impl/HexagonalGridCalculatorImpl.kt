@@ -22,7 +22,7 @@ class HexagonalGridCalculatorImpl<T : SatelliteData>(private val hexagonalGrid: 
         for (x in -distance..distance) {
             for (y in max(-distance, -x - distance)..min(distance, -x + distance)) {
                 val z = -x - y
-                val tempCoordinate = CubeCoordinate.fromCoordinates(hexagon.gridX + x, hexagon.gridZ + z)
+                val tempCoordinate = CubeCoordinate(hexagon.gridX + x, hexagon.gridZ + z)
                 hexagonalGrid.getByCubeCoordinate(tempCoordinate).ifPresent { ret += it }
             }
         }
@@ -32,9 +32,9 @@ class HexagonalGridCalculatorImpl<T : SatelliteData>(private val hexagonalGrid: 
     override fun rotateHexagon(originalHex: Hexagon<T>, targetHex: Hexagon<T>, rotationDirection: RotationDirection): Maybe<Hexagon<T>> {
         val diffX = targetHex.gridX - originalHex.gridX
         val diffZ = targetHex.gridZ - originalHex.gridZ
-        val diffCoord = CubeCoordinate.fromCoordinates(diffX, diffZ)
+        val diffCoord = CubeCoordinate(diffX, diffZ)
         val rotatedCoord = rotationDirection.rotate(diffCoord)
-        val resultCoord = CubeCoordinate.fromCoordinates(
+        val resultCoord = CubeCoordinate(
                 originalHex.gridX + rotatedCoord.gridX,
                 originalHex.gridZ + rotatedCoord.gridZ) // 0, x,
         return hexagonalGrid.getByCubeCoordinate(resultCoord)
@@ -106,6 +106,6 @@ class HexagonalGridCalculatorImpl<T : SatelliteData>(private val hexagonalGrid: 
         } else if (differenceY <= differenceZ) {
             rz = -rx - ry
         }
-        return CubeCoordinate.fromCoordinates(rx, rz)
+        return CubeCoordinate(rx, rz)
     }
 }

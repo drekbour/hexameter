@@ -24,7 +24,7 @@ class HexagonalGridLayoutStrategy : GridLayoutStrategy() {
                 val distanceFromMid = abs(hexRadius - y)
                 for (x in max(startX, minX)..max(startX, minX) + hexRadius + hexRadius - distanceFromMid) {
                     val gridZ = if (HexagonOrientation.FLAT_TOP === orientation) y - floor(gridSize / 4.0).toInt() else y
-                    coords.add(CubeCoordinate.fromCoordinates(x, gridZ))
+                    coords.add(CubeCoordinate(x, gridZ))
                 }
                 startX--
                 y++

@@ -1,7 +1,6 @@
 package org.hexworks.mixite.core.internal.impl
 
 import org.hexworks.mixite.core.api.*
-import org.hexworks.mixite.core.api.CubeCoordinate.Companion.fromCoordinates
 import org.hexworks.mixite.core.api.HexagonalGridLayout.RECTANGULAR
 import org.hexworks.mixite.core.api.defaults.DefaultHexagonDataStorage
 import org.hexworks.mixite.core.api.defaults.DefaultSatelliteData
@@ -59,19 +58,19 @@ class HexagonalGridImplTest {
     fun shouldReturnProperHexagonsWhenGetHexagonsByAxialRangeIsCalled() {
         val expected = HashSet<Hexagon<DefaultSatelliteData>>()
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 3)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 3)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 3)).get())
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 4)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 4)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 4)).get())
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 5)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 5)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 5)).get())
 
-        val actual = grid.getHexagonsByCubeRange(fromCoordinates(GRID_X_FROM, GRID_Z_FROM), fromCoordinates(GRID_X_TO, GRID_Z_TO))
+        val actual = grid.getHexagonsByCubeRange(CubeCoordinate(GRID_X_FROM, GRID_Z_FROM), CubeCoordinate(GRID_X_TO, GRID_Z_TO))
         var count = 0
 
         val actuals = ArrayList<Hexagon<DefaultSatelliteData>>()
@@ -90,17 +89,17 @@ class HexagonalGridImplTest {
     fun shouldReturnProperHexagonsWhenGetHexagonsByOffsetRangeIsCalled() {
         val expected = HashSet<Hexagon<DefaultSatelliteData>>()
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(1, 3)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 3)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(1, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 3)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 3)).get())
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(0, 4)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(1, 4)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(0, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(1, 4)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 4)).get())
 
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(0, 5)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(1, 5)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(0, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(1, 5)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 5)).get())
 
         val actual = grid.getHexagonsByOffsetRange(GRID_X_FROM, GRID_X_TO, GRID_Z_FROM, GRID_Z_TO)
         var count = 0
@@ -120,14 +119,14 @@ class HexagonalGridImplTest {
     fun shouldContainCoordinateWhenContainsCoorinateIsCalledWithProperParameters() {
         val gridX = 2
         val gridZ = 3
-        assertTrue(grid.containsCubeCoordinate(fromCoordinates(gridX, gridZ)))
+        assertTrue(grid.containsCubeCoordinate(CubeCoordinate(gridX, gridZ)))
     }
 
     @Test
     fun shouldReturnHexagonWhenGetByGridCoordinateIsCalledWithProperCoordinates() {
         val gridX = 2
         val gridZ = 3
-        val hex = grid.getByCubeCoordinate(fromCoordinates(gridX, gridZ))
+        val hex = grid.getByCubeCoordinate(CubeCoordinate(gridX, gridZ))
         assertTrue(hex.isPresent)
     }
 
@@ -135,7 +134,7 @@ class HexagonalGridImplTest {
     fun shouldBeEmptyWhenGetByGridCoordinateIsCalledWithInvalidCoordinates() {
         val gridX = 20
         val gridZ = 30
-        val result = grid.getByCubeCoordinate(fromCoordinates(gridX, gridZ))
+        val result = grid.getByCubeCoordinate(CubeCoordinate(gridX, gridZ))
         assertFalse(result.isPresent)
     }
 
@@ -168,24 +167,24 @@ class HexagonalGridImplTest {
 
     @Test
     fun shouldReturnProperNeighborsOfHexagonWhenHexIsInMiddle() {
-        val hex = grid.getByCubeCoordinate(fromCoordinates(3, 7)).get()
+        val hex = grid.getByCubeCoordinate(CubeCoordinate(3, 7)).get()
         val expected = HashSet<Hexagon<DefaultSatelliteData>>()
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 6)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 6)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 7)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(3, 8)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 8)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(2, 7)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 6)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 6)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 7)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(3, 8)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 8)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(2, 7)).get())
         val actual = grid.getNeighborsOf(hex)
         assertEquals(expected, actual)
     }
 
     @Test
     fun shouldReturnProperNeighborsOfHexagonWhenHexIsOnTheEdge() {
-        val hex = grid.getByCubeCoordinate(fromCoordinates(5, 9)).get()
+        val hex = grid.getByCubeCoordinate(CubeCoordinate(5, 9)).get()
         val expected = HashSet<Hexagon<DefaultSatelliteData>>()
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(5, 8)).get())
-        expected.add(grid.getByCubeCoordinate(fromCoordinates(4, 9)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(5, 8)).get())
+        expected.add(grid.getByCubeCoordinate(CubeCoordinate(4, 9)).get())
         val actual = grid.getNeighborsOf(hex)
         assertEquals(expected, actual)
     }
