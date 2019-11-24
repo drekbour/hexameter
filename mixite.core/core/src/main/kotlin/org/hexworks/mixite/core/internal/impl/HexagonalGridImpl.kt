@@ -72,7 +72,7 @@ class HexagonalGridImpl<T : SatelliteData>(
         // create a virtual hexagon
         val estimatedCoordinate = CubeCoordinate.fromCoordinates(estimatedGridX, estimatedGridZ)
         val centerHex = hexagon(estimatedCoordinate)
-        val nearestHex = nearestHexagonToPoint(centerHex, Point.fromPosition(coordinateX, coordinateY))
+        val nearestHex = nearestHexagonToPoint(centerHex, Point(coordinateX, coordinateY))
 
         return if (nearestHex === centerHex) {
             getByCubeCoordinate(estimatedCoordinate) // centerHex may have been off-grid so look it up again

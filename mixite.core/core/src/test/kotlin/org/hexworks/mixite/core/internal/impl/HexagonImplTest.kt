@@ -5,7 +5,7 @@ import org.hexworks.mixite.core.api.Hexagon
 import org.hexworks.mixite.core.api.HexagonOrientation.FLAT_TOP
 import org.hexworks.mixite.core.api.HexagonOrientation.POINTY_TOP
 import org.hexworks.mixite.core.api.HexagonalGridLayout.RECTANGULAR
-import org.hexworks.mixite.core.api.Point.Companion.fromPosition
+import org.hexworks.mixite.core.api.Point
 import org.hexworks.mixite.core.api.defaults.DefaultHexagonDataStorage
 import org.hexworks.mixite.core.api.defaults.DefaultSatelliteData
 import org.hexworks.mixite.core.internal.GridData
@@ -118,8 +118,8 @@ class HexagonImplTest {
         private val TEST_COORDINATE = fromCoordinates(TEST_GRID_X, TEST_GRID_Z)
         private val TEST_SATELLITE_DATA = DefaultSatelliteData()
         private val TEST_SATELLITE_DATA_MAP = DefaultHexagonDataStorage<DefaultSatelliteData>()
-        private val EXPECTED_FLAT_POINTS = arrayOf(fromPosition(50.0, 78.0), fromPosition(45.0, 87.0), fromPosition(35.0, 87.0), fromPosition(30.0, 78.0), fromPosition(35.0, 69.0), fromPosition(45.0, 69.0))
-        private val EXPECTED_POINTY_POINTS = arrayOf(fromPosition(78.0, 60.0), fromPosition(69.0, 65.0), fromPosition(61.0, 60.0), fromPosition(61.0, 50.0), fromPosition(69.0, 45.0), fromPosition(78.0, 50.0))
+        private val EXPECTED_FLAT_POINTS = arrayOf(Point(50.0, 78.0), Point(45.0, 87.0), Point(35.0, 87.0), Point(30.0, 78.0), Point(35.0, 69.0), Point(45.0, 69.0))
+        private val EXPECTED_POINTY_POINTS = arrayOf(Point(78.0, 60.0), Point(69.0, 65.0), Point(61.0, 60.0), Point(61.0, 50.0), Point(69.0, 45.0), Point(78.0, 50.0))
 
         init {
             TEST_SATELLITE_DATA_MAP.addCoordinate(TEST_COORDINATE, TEST_SATELLITE_DATA)

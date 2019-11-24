@@ -7,9 +7,8 @@ import kotlin.math.sqrt
  * Represents a point. Please note that this represents a point in
  * 2d space not an abstract concept of a coordinate.
  */
-@Suppress("DataClassPrivateConstructor")
-data class Point private constructor(val coordinateX: Double,
-                                     val coordinateY: Double) {
+data class Point internal constructor(val coordinateX: Double,
+                                      val coordinateY: Double) {
 
     /**
      * Calculates a distance between two points.

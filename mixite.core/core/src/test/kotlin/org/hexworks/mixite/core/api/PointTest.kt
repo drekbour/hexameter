@@ -10,7 +10,7 @@ class PointTest {
     fun shouldProperlyCreatePointWhenConstructorIsCalled() {
         val x = 0.0
         val y = 1.0
-        val p = Point.fromPosition(x, y)
+        val p = Point(x, y)
         assertEquals(expected = x, actual = p.coordinateX)
         assertEquals(expected = y, actual = p.coordinateY)
     }
@@ -22,7 +22,7 @@ class PointTest {
         val x2 = 9.0
         val x1 = 6.0
         val expectedDistance = sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)))
-        val actualDistance = Point.fromPosition(x1, y1).distanceFrom(Point.fromPosition(x2, y2))
+        val actualDistance = Point(x1, y1).distanceFrom(Point(x2, y2))
         assertEquals(expectedDistance, actualDistance)
     }
 }
