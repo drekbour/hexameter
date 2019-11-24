@@ -8,7 +8,7 @@ import org.hexworks.mixite.core.internal.impl.layoutstrategy.*
  * in this package but since the name GridLayout is so common (in SWT for example)
  * using this name seemed appropriate.
  */
-enum class HexagonalGridLayout(val gridLayoutStrategy: GridLayoutStrategy) {
+enum class HexagonalGridLayout(internal val gridLayoutStrategy: GridLayoutStrategy) {
 
     /**
      * A rectangular layout has no special rules.

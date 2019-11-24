@@ -8,7 +8,6 @@ import org.hexworks.mixite.core.api.defaults.DefaultHexagonDataStorage
 import org.hexworks.mixite.core.internal.GridData
 import org.hexworks.mixite.core.internal.impl.HexagonalGridCalculatorImpl
 import org.hexworks.mixite.core.internal.impl.HexagonalGridImpl
-import org.hexworks.mixite.core.internal.impl.layoutstrategy.GridLayoutStrategy
 
 /**
  *
@@ -23,28 +22,12 @@ import org.hexworks.mixite.core.internal.impl.layoutstrategy.GridLayoutStrategy
  * Defaults for orientation and grid layout are POINTY_TOP and RECTANGULAR.
  */
 class HexagonalGridBuilder<T : SatelliteData> {
-    private var gridWidth: Int = 0
-    private var gridHeight: Int = 0
-    private var radius: Double = 0.toDouble()
-    private lateinit var hexagonDataStorage: HexagonDataStorage<T>
+    private var gridWidth = 0
+    private var gridHeight = 0
+    private var radius = 0.0
+    private var hexagonDataStorage: HexagonDataStorage<T>? = null
     private var orientation = POINTY_TOP
     private var gridLayout = RECTANGULAR
-
-    val gridLayoutStrategy: GridLayoutStrategy
-        get() = gridLayout.gridLayoutStrategy
-
-    /**
-     * Returns the GridData.
-     *
-     * @return grid data
-     */
-    val gridData: GridData
-        get() {
-            if (radius == 0.0 || gridWidth == 0 || gridHeight == 0) {
-                throw IllegalStateException("Not all necessary fields are initialized!")
-            }
-            return GridData(orientation, gridLayout, radius, gridWidth, gridHeight)
-        }
 
     /**
      * Builds a [HexagonalGrid] using the parameters supplied.
@@ -55,11 +38,9 @@ class HexagonalGridBuilder<T : SatelliteData> {
      * @return [HexagonalGrid]
      */
     fun build(): HexagonalGrid<T> {
-        if (! ::hexagonDataStorage.isInitialized) {
-            hexagonDataStorage = DefaultHexagonDataStorage()
-        }
         checkParameters()
-        return HexagonalGridImpl(this)
+        val gridData = GridData(orientation, gridLayout, radius, gridWidth, gridHeight)
+        return HexagonalGridImpl(gridData, hexagonDataStorage ?: DefaultHexagonDataStorage(), gridLayout.gridLayoutStrategy)
     }
 
     /**
@@ -73,10 +54,6 @@ class HexagonalGridBuilder<T : SatelliteData> {
         return HexagonalGridCalculatorImpl(hexagonalGrid)
     }
 
-    fun getRadius(): Double {
-        return radius
-    }
-
     /**
      * Sets the radius of the [Hexagon]s contained in the resulting [HexagonalGrid].
      *
@@ -84,13 +61,7 @@ class HexagonalGridBuilder<T : SatelliteData> {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setRadius(radius: Double): HexagonalGridBuilder<T> = also {
-        this.radius = radius
-    }
-
-    fun getGridWidth(): Int {
-        return gridWidth
-    }
+    fun setRadius(radius: Double) = apply { this.radius = radius }
 
     /**
      * Mandatory parameter. Sets the number of [Hexagon]s in the horizontal direction.
@@ -99,13 +70,7 @@ class HexagonalGridBuilder<T : SatelliteData> {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setGridWidth(gridWidth: Int): HexagonalGridBuilder<T> = also {
-        this.gridWidth = gridWidth
-    }
-
-    fun getGridHeight(): Int {
-        return gridHeight
-    }
+    fun setGridWidth(gridWidth: Int) = apply { this.gridWidth = gridWidth }
 
     /**
      * Mandatory parameter. Sets the number of [Hexagon]s in the vertical direction.
@@ -114,52 +79,55 @@ class HexagonalGridBuilder<T : SatelliteData> {
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setGridHeight(gridHeight: Int): HexagonalGridBuilder<T> = also {
-        this.gridHeight = gridHeight
-    }
-
-    fun getOrientation(): HexagonOrientation {
-        return orientation
-    }
+    fun setGridHeight(gridHeight: Int) = apply { this.gridHeight = gridHeight }
 
     /**
      * Sets the [HexagonOrientation] used in the resulting [HexagonalGrid].
-     * If it is not set HexagonOrientation.POINTY will be used.
+     * If it is not set [POINTY_TOP] will be used.
      *
      * @param orientation orientation
      *
      * @return this [HexagonalGridBuilder]
      */
-    fun setOrientation(orientation: HexagonOrientation): HexagonalGridBuilder<T> = also {
-        this.orientation = orientation
-    }
+    fun setOrientation(orientation: HexagonOrientation) = apply { this.orientation = orientation }
 
-    fun getHexagonDataStorage(): HexagonDataStorage<T> {
-        return hexagonDataStorage
-    }
-
-    fun setHexagonDataStorage(storage: HexagonDataStorage<T>): HexagonalGridBuilder<T> = also {
-        this.hexagonDataStorage = storage
-    }
+    /**
+     * Sets the backing [HexagonDataStorage] used by the resulting [HexagonalGrid].
+     * If it is not set, [DefaultHexagonDataStorage] wil be used
+     */
+    fun setHexagonDataStorage(hexagonDataStorage: HexagonDataStorage<T>) = apply { this.hexagonDataStorage = hexagonDataStorage }
 
     /**
      * Sets the [HexagonalGridLayout] which will be used when creating the [HexagonalGrid].
-     * If it is not set <pre>RECTANGULAR</pre> will be assumed.
+     * If it is not set [RECTANGULAR] will be assumed.
      *
      * @param gridLayout layout
      *
      * @return this [HexagonalGridBuilder].
      */
-    fun setGridLayout(gridLayout: HexagonalGridLayout): HexagonalGridBuilder<T> = also {
-        this.gridLayout = gridLayout
-    }
+    fun setGridLayout(gridLayout: HexagonalGridLayout) = apply { this.gridLayout = gridLayout }
+
+    @Deprecated("To be removed")
+    fun getRadius() = radius
+
+    @Deprecated("To be removed")
+    fun getGridWidth() = gridWidth
+
+    @Deprecated("To be removed")
+    fun getGridHeight() = gridHeight
+
+    @Deprecated("To be removed")
+    fun getOrientation() = orientation
+
+    @Deprecated("To be removed")
+    fun getGridLayout() =  gridLayout
 
     private fun checkParameters() {
         if (radius <= 0) {
-            throw IllegalStateException("Radius must be greater than 0.")
+            throw IllegalStateException("Radius $radius must be greater than 0.")
         }
         if (!gridLayout.checkParameters(gridHeight, gridWidth)) {
-            throw IllegalStateException("Width: " + gridWidth + " and height: " + gridHeight + " is not valid for: " + gridLayout.name + " layout.")
+            throw IllegalStateException("Width: $gridWidth and height: $gridHeight is not valid for: ${gridLayout.name} layout.")
         }
     }
 }

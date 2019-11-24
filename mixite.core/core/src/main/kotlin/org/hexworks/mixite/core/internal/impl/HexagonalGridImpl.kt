@@ -5,19 +5,20 @@ import org.hexworks.mixite.core.api.*
 import org.hexworks.mixite.core.api.contract.HexagonDataStorage
 import org.hexworks.mixite.core.api.contract.SatelliteData
 import org.hexworks.mixite.core.internal.GridData
+import org.hexworks.mixite.core.internal.impl.layoutstrategy.GridLayoutStrategy
 import kotlin.math.abs
 
-class HexagonalGridImpl<T : SatelliteData>(builder: HexagonalGridBuilder<T>) : HexagonalGrid<T> {
-
-    override val gridData: GridData = builder.gridData
-    private val hexagonDataStorage: HexagonDataStorage<T> = builder.getHexagonDataStorage()
+class HexagonalGridImpl<T : SatelliteData>(
+        override val gridData: GridData,
+        private val hexagonDataStorage: HexagonDataStorage<T>,
+        gridLayoutStrategy: GridLayoutStrategy) : HexagonalGrid<T> {
 
     override val hexagons: Iterable<Hexagon<T>>
         get() = hexagonsFor(hexagonDataStorage.coordinates)
 
     init {
-        for (cubeCoordinate in builder.gridLayoutStrategy.fetchGridCoordinates(builder)) {
-            this@HexagonalGridImpl.hexagonDataStorage.addCoordinate(cubeCoordinate)
+        for (cubeCoordinate in gridLayoutStrategy.fetchGridCoordinates(gridData)) {
+            hexagonDataStorage.addCoordinate(cubeCoordinate)
         }
     }
 

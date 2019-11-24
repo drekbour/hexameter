@@ -1,29 +1,24 @@
 package org.hexworks.mixite.core.internal.impl.layoutstrategy
 
-import org.hexworks.mixite.core.GridLayoutStrategyTestUtil
+import org.hexworks.mixite.core.GridLayoutStrategyTestUtil.defaultGridData
 import org.hexworks.mixite.core.api.CubeCoordinate
 import org.hexworks.mixite.core.api.CubeCoordinate.Companion.fromCoordinates
 import org.hexworks.mixite.core.api.HexagonOrientation.FLAT_TOP
-import org.hexworks.mixite.core.api.HexagonalGridBuilder
-import org.hexworks.mixite.core.api.contract.SatelliteData
-import kotlin.test.BeforeTest
+import org.hexworks.mixite.core.api.HexagonOrientation.POINTY_TOP
+import org.hexworks.mixite.core.api.HexagonalGridLayout.TRAPEZOID
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class TrapezoidGridLayoutStrategyTest {
 
-    private lateinit var builder: HexagonalGridBuilder<out SatelliteData>
-    private lateinit var target: TrapezoidGridLayoutStrategy
-
-    @BeforeTest
-    fun setUp() {
-        builder = GridLayoutStrategyTestUtil.fetchDefaultBuilder()
-        target = TrapezoidGridLayoutStrategy()
+    @Test
+    fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
+        testCoordinates(TrapezoidGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRAPEZOID, POINTY_TOP)).iterator())
     }
 
     @Test
-    fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
-        testCoordinates(target.fetchGridCoordinates(builder).iterator())
+    fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
+        testCoordinates(TrapezoidGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRAPEZOID, FLAT_TOP)).iterator())
     }
 
     private fun testCoordinates(coordIter: Iterator<CubeCoordinate>) {
@@ -57,14 +52,8 @@ class TrapezoidGridLayoutStrategyTest {
     }
 
     @Test
-    fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
-        builder.setOrientation(FLAT_TOP)
-        testCoordinates(target.fetchGridCoordinates(builder).iterator())
-    }
-
-    @Test
     fun shouldReturnTrueWhenCheckParametersIsCalled() {
-        assertTrue(target.checkParameters(2, 2))
+        assertTrue(TRAPEZOID.checkParameters(2, 2))
     }
 
 }

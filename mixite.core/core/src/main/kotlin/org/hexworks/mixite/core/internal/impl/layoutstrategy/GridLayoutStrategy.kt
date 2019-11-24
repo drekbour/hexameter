@@ -3,6 +3,7 @@ package org.hexworks.mixite.core.internal.impl.layoutstrategy
 import org.hexworks.mixite.core.api.CubeCoordinate
 import org.hexworks.mixite.core.api.HexagonalGridBuilder
 import org.hexworks.mixite.core.api.contract.SatelliteData
+import org.hexworks.mixite.core.internal.GridData
 
 /**
  * Represents the method of creating a [org.hexworks.mixite.core.api.HexagonalGrid] corresponding to a given shape.
@@ -13,11 +14,11 @@ abstract class GridLayoutStrategy {
      * Fetches a monotonically increasing (from left to right, top to bottom) Set of
      * grid coordinates corresponding to the shape of the requested grid layout.
      *
-     * @param builder builder
+     * @param gridData intrinsic grid properties
      *
-     * @return observable
+     * @return All [CubeCoordinate] for the given grid.
      */
-    abstract fun fetchGridCoordinates(builder: HexagonalGridBuilder<out SatelliteData>): Iterable<CubeCoordinate>
+    abstract fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate>
 
     /**
      * Checks whether the supplied parameters are valid for the given strategy.
