@@ -33,7 +33,7 @@ class HexagonalGridCalculatorImpl<T : SatelliteData>(private val hexagonalGrid: 
         val diffX = targetHex.gridX - originalHex.gridX
         val diffZ = targetHex.gridZ - originalHex.gridZ
         val diffCoord = CubeCoordinate.fromCoordinates(diffX, diffZ)
-        val rotatedCoord = rotationDirection.calculateRotation(diffCoord)
+        val rotatedCoord = rotationDirection.rotate(diffCoord)
         val resultCoord = CubeCoordinate.fromCoordinates(
                 originalHex.gridX + rotatedCoord.gridX,
                 originalHex.gridZ + rotatedCoord.gridZ) // 0, x,
