@@ -16,9 +16,7 @@ object RectangularGridLayoutStrategy : GridLayoutStrategy {
             val coords = ArrayList<CubeCoordinate>(count(gridHeight, gridWidth))
             for (y in 0 until gridHeight) {
                 for (x in 0 until gridWidth) {
-                    val gridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(x, y, orientation)
-                    val gridZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(x, y, orientation)
-                    coords.add(CubeCoordinate(gridX, gridZ))
+                    coords.add(CoordinateConverter.offsetToCubeCoordinate(x, y, orientation))
                 }
             }
             return coords

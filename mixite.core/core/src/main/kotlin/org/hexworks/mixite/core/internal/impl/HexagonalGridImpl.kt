@@ -42,9 +42,7 @@ class HexagonalGridImpl<T : SatelliteData>(
 
         for (gridX in gridXFrom..gridXTo) {
             for (gridY in gridYFrom..gridYTo) {
-                val cubeX = CoordinateConverter.convertOffsetCoordinatesToCubeX(gridX, gridY, gridData.orientation)
-                val cubeZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(gridX, gridY, gridData.orientation)
-                val coord = CubeCoordinate(cubeX, cubeZ)
+                val coord = CoordinateConverter.offsetToCubeCoordinate(gridX, gridY, gridData.orientation)
                 if (containsCubeCoordinate(coord)) {
                     coordinates.add(coord)
                 }
@@ -64,13 +62,10 @@ class HexagonalGridImpl<T : SatelliteData>(
             Maybe.ofNullable(_getByCubeCoordinate(coordinate))
 
     override fun getByPixelCoordinate(coordinateX: Double, coordinateY: Double): Maybe<Hexagon<T>> {
-        var estimatedGridX = (coordinateX / gridData.hexagonWidth).toInt()
-        var estimatedGridZ = (coordinateY / gridData.hexagonHeight).toInt()
-        estimatedGridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(estimatedGridX, estimatedGridZ, gridData.orientation)
-        estimatedGridZ = CoordinateConverter.convertOffsetCoordinatesToCubeZ(estimatedGridX, estimatedGridZ, gridData.orientation)
-        // it is possible that the estimated coordinates are off-grid so we
-        // create a virtual hexagon
-        val estimatedCoordinate = CubeCoordinate(estimatedGridX, estimatedGridZ)
+        val offsetX = (coordinateX / gridData.hexagonWidth).toInt()
+        val offsetY = (coordinateY / gridData.hexagonHeight).toInt()
+        // it is possible that the estimated coordinates are off-grid so we create a virtual hexagon
+        val estimatedCoordinate = CoordinateConverter.offsetToCubeCoordinate(offsetX, offsetY, gridData.orientation)
         val centerHex = hexagon(estimatedCoordinate)
         val nearestHex = nearestHexagonToPoint(centerHex, Point(coordinateX, coordinateY))
 
@@ -91,6 +86,7 @@ class HexagonalGridImpl<T : SatelliteData>(
             getByCubeCoordinate(_getNeighborByIndex(hexagon, index))
 
     override fun getNeighborsOf(hexagon: Hexagon<T>): Collection<Hexagon<T>> {
+         // TODO NEIGHBORS.indices.map { i -> _getNeighborByIndex(hexagon, i) }.mapNotNull(this::_getByCubeCoordinate)
         val neighbors = HashSet<Hexagon<T>>()
         for (i in NEIGHBORS.indices) {
             val retHex = getNeighborByIndex(hexagon, i)
@@ -135,7 +131,7 @@ class HexagonalGridImpl<T : SatelliteData>(
             HexagonImpl(gridData, coordinate, hexagonDataStorage)
 
     private fun hexagonsFor(coordinates: Iterable<CubeCoordinate>): Iterable<Hexagon<T>> {
-        // TODO return coordinates.map { c -> hexagon(c) }
+        // TODO return coordinates.map { c -> hexagon(c) } is _Really Slow_
         val iter = coordinates.iterator()
 
         return object : Iterable<Hexagon<T>> {
@@ -154,7 +150,6 @@ class HexagonalGridImpl<T : SatelliteData>(
     }
 
     companion object {
-
         private val NEIGHBORS = arrayOf(intArrayOf(+1, 0), intArrayOf(+1, -1), intArrayOf(0, -1), intArrayOf(-1, 0), intArrayOf(-1, +1), intArrayOf(0, +1))
         private const val NEIGHBOR_X_INDEX = 0
         private const val NEIGHBOR_Z_INDEX = 1

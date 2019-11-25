@@ -15,12 +15,6 @@ class CoordinateConverter {
 
         /**
          * Calculates the cube X coordinate based on an offset coordinate pair.
-         *
-         * @param offsetX offset x
-         * @param offsetY offset y
-         * @param orientation orientation
-         *
-         * @return cube x
          */
         @JvmStatic
         fun convertOffsetCoordinatesToCubeX(offsetX: Int, offsetY: Int, orientation: HexagonOrientation): Int {
@@ -29,17 +23,22 @@ class CoordinateConverter {
 
         /**
          * Calculates the cube Z coordinate based on an offset coordinate pair.
-         *
-         * @param offsetX offset x
-         * @param offsetY offset y
-         * @param orientation orientation
-         *
-         * @return cube z
          */
         @JvmStatic
         fun convertOffsetCoordinatesToCubeZ(offsetX: Int, offsetY: Int, orientation: HexagonOrientation): Int {
             return if (HexagonOrientation.FLAT_TOP === orientation) offsetY - offsetX / 2 else offsetY
         }
+
+        /**
+         * Convert offset coordinates to a [CubeCoordinate]
+         */
+        @JvmStatic
+        fun offsetToCubeCoordinate(offsetX: Int, offsetY: Int, orientation: HexagonOrientation): CubeCoordinate =
+                if (HexagonOrientation.FLAT_TOP === orientation) {
+                    CubeCoordinate( offsetX,  offsetY - offsetX / 2)
+                } else {
+                    CubeCoordinate( offsetX - offsetY / 2,  offsetY)
+                }
     }
 
 }
