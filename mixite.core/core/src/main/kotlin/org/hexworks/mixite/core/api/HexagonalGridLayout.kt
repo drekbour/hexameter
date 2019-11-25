@@ -13,23 +13,23 @@ enum class HexagonalGridLayout(internal val gridLayoutStrategy: GridLayoutStrate
     /**
      * A rectangular layout has no special rules.
      */
-    RECTANGULAR(RectangularGridLayoutStrategy()),
+    RECTANGULAR(RectangularGridLayoutStrategy),
 
     /**
      * The hexagonal layout must have equal width and height and
      * it must be odd.
      */
-    HEXAGONAL(HexagonalGridLayoutStrategy()),
+    HEXAGONAL(HexagonalGridLayoutStrategy),
 
     /**
      * A triangular layout must have equal width and height.
      */
-    TRIANGULAR(TriangularGridLayoutStrategy()),
+    TRIANGULAR(TriangularGridLayoutStrategy),
 
     /**
      * A trapezoid layout has no special rules.
      */
-    TRAPEZOID(TrapezoidGridLayoutStrategy());
+    TRAPEZOID(TrapezoidGridLayoutStrategy);
 
     /**
      * Checks whether the grid height/width parameters can be used for the given [GridLayoutStrategy].

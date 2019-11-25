@@ -13,12 +13,12 @@ class TriangularGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
-        testCoordinates(TriangularGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRIANGULAR, POINTY_TOP)).iterator())
+        testCoordinates(TriangularGridLayoutStrategy.fetchGridCoordinates(defaultGridData(TRIANGULAR, POINTY_TOP)).iterator())
     }
 
     @Test
     fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
-        testCoordinates(TriangularGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRIANGULAR, FLAT_TOP)).iterator())
+        testCoordinates(TriangularGridLayoutStrategy.fetchGridCoordinates(defaultGridData(TRIANGULAR, FLAT_TOP)).iterator())
     }
 
     @Test

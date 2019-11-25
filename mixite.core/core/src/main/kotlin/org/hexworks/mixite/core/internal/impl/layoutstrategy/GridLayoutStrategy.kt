@@ -8,7 +8,7 @@ import org.hexworks.mixite.core.internal.GridData
 /**
  * Represents the method of creating a [org.hexworks.mixite.core.api.HexagonalGrid] corresponding to a given shape.
  */
-abstract class GridLayoutStrategy {
+interface GridLayoutStrategy {
 
     /**
      * Fetches a monotonically increasing (from left to right, top to bottom) Set of
@@ -18,21 +18,16 @@ abstract class GridLayoutStrategy {
      *
      * @return All [CubeCoordinate] for the given grid.
      */
-    abstract fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate>
+    fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate>
 
     /**
      * Checks whether the supplied parameters are valid for the given strategy.
      * *For example a hexagonal grid layout only works if the width equals to the height*
-     *
-     * @param gridHeight height
-     * @param gridWidth width
-     *
-     * @return valid?
      */
-    abstract fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean
+    fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean
 
-    protected fun checkCommonCase(gridHeight: Int, gridWidth: Int): Boolean {
-        return gridHeight > 0 && gridWidth > 0
+    companion object {
+        internal fun checkCommonCase(gridHeight: Int, gridWidth: Int) = gridHeight > 0 && gridWidth > 0
     }
 
 }

@@ -5,12 +5,15 @@ import org.hexworks.mixite.core.api.CubeCoordinate
 import org.hexworks.mixite.core.api.HexagonalGridBuilder
 import org.hexworks.mixite.core.api.contract.SatelliteData
 import org.hexworks.mixite.core.internal.GridData
+import org.hexworks.mixite.core.internal.impl.layoutstrategy.GridLayoutStrategy.Companion.checkCommonCase
 
-class RectangularGridLayoutStrategy : GridLayoutStrategy() {
+object RectangularGridLayoutStrategy : GridLayoutStrategy {
+
+    private fun count(height: Int, width: Int) = width * height
 
     override fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate> {
         with(gridData) {
-            val coords = ArrayList<CubeCoordinate>(gridHeight * gridWidth)
+            val coords = ArrayList<CubeCoordinate>(count(gridHeight, gridWidth))
             for (y in 0 until gridHeight) {
                 for (x in 0 until gridWidth) {
                     val gridX = CoordinateConverter.convertOffsetCoordinatesToCubeX(x, y, orientation)

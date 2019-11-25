@@ -14,7 +14,7 @@ class RectangularGridLayoutStrategyTest {
     @Test
     fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
 
-        val coordIter = RectangularGridLayoutStrategy().fetchGridCoordinates(defaultGridData(RECTANGULAR, POINTY_TOP)).iterator()
+        val coordIter = RectangularGridLayoutStrategy.fetchGridCoordinates(defaultGridData(RECTANGULAR, POINTY_TOP)).iterator()
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {
             coords.add(coordIter.next())
@@ -48,7 +48,7 @@ class RectangularGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
-        val coordIter = RectangularGridLayoutStrategy().fetchGridCoordinates(defaultGridData(RECTANGULAR, FLAT_TOP)).iterator()
+        val coordIter = RectangularGridLayoutStrategy.fetchGridCoordinates(defaultGridData(RECTANGULAR, FLAT_TOP)).iterator()
 
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {

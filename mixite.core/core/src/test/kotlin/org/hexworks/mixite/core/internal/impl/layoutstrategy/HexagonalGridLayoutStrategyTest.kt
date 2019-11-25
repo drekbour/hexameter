@@ -13,7 +13,7 @@ class HexagonalGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
-        val coordIter = HexagonalGridLayoutStrategy().fetchGridCoordinates(defaultGridData(HEXAGONAL, POINTY_TOP)).iterator()
+        val coordIter = HexagonalGridLayoutStrategy.fetchGridCoordinates(defaultGridData(HEXAGONAL, POINTY_TOP)).iterator()
 
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {
@@ -43,7 +43,7 @@ class HexagonalGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalledWithBiggerSize() {
-        val coordIter = HexagonalGridLayoutStrategy().fetchGridCoordinates(defaultGridData(HEXAGONAL, POINTY_TOP, width = 5, height = 5)).iterator()
+        val coordIter = HexagonalGridLayoutStrategy.fetchGridCoordinates(defaultGridData(HEXAGONAL, POINTY_TOP, width = 5, height = 5)).iterator()
 
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {
@@ -85,7 +85,7 @@ class HexagonalGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
-        val coordIter = HexagonalGridLayoutStrategy().fetchGridCoordinates(defaultGridData(HEXAGONAL, FLAT_TOP)).iterator()
+        val coordIter = HexagonalGridLayoutStrategy.fetchGridCoordinates(defaultGridData(HEXAGONAL, FLAT_TOP)).iterator()
 
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {
@@ -116,7 +116,7 @@ class HexagonalGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalledWithBiggerSize() {
-        val coordIter = HexagonalGridLayoutStrategy().fetchGridCoordinates(defaultGridData(HEXAGONAL, FLAT_TOP, width = 5, height = 5)).iterator()
+        val coordIter = HexagonalGridLayoutStrategy.fetchGridCoordinates(defaultGridData(HEXAGONAL, FLAT_TOP, width = 5, height = 5)).iterator()
 
         val coords = ArrayList<CubeCoordinate>()
         while (coordIter.hasNext()) {

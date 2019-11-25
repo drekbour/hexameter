@@ -12,12 +12,12 @@ class TrapezoidGridLayoutStrategyTest {
 
     @Test
     fun shouldProperlyCreateHexagonsWithPointyOrientationWhenCreateHexagonsIsCalled() {
-        testCoordinates(TrapezoidGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRAPEZOID, POINTY_TOP)).iterator())
+        testCoordinates(TrapezoidGridLayoutStrategy.fetchGridCoordinates(defaultGridData(TRAPEZOID, POINTY_TOP)).iterator())
     }
 
     @Test
     fun shouldProperlyCreateHexagonsWithFlatOrientationWhenCreateHexagonsIsCalled() {
-        testCoordinates(TrapezoidGridLayoutStrategy().fetchGridCoordinates(defaultGridData(TRAPEZOID, FLAT_TOP)).iterator())
+        testCoordinates(TrapezoidGridLayoutStrategy.fetchGridCoordinates(defaultGridData(TRAPEZOID, FLAT_TOP)).iterator())
     }
 
     private fun testCoordinates(coordIter: Iterator<CubeCoordinate>) {

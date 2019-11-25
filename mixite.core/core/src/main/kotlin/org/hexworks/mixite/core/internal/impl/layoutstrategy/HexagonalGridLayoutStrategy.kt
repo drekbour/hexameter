@@ -2,28 +2,32 @@ package org.hexworks.mixite.core.internal.impl.layoutstrategy
 
 import org.hexworks.mixite.core.api.CubeCoordinate
 import org.hexworks.mixite.core.api.HexagonOrientation
+import org.hexworks.mixite.core.api.HexagonOrientation.*
 import org.hexworks.mixite.core.api.HexagonalGridBuilder
 import org.hexworks.mixite.core.api.contract.SatelliteData
 import org.hexworks.mixite.core.internal.GridData
+import org.hexworks.mixite.core.internal.impl.layoutstrategy.GridLayoutStrategy.Companion.checkCommonCase
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.round
 
-class HexagonalGridLayoutStrategy : GridLayoutStrategy() {
+object HexagonalGridLayoutStrategy : GridLayoutStrategy {
+
+    private fun count(height: Int, width: Int) = 1 + (height * width * 6 - 6) / 8
 
     override fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate> {
         with(gridData) {
             val gridSize = gridHeight
-            val coords = ArrayList<CubeCoordinate>(1 + (gridSize * gridSize * 6 - 6) / 8) // TODO cell count owned by the builder
-            var startX = if (HexagonOrientation.FLAT_TOP === orientation) floor(gridSize / 2.0).toInt() else round(gridSize / 4.0).toInt()
-            val hexRadius = floor(gridSize / 2.0).toInt()
+            val coords = ArrayList<CubeCoordinate>(count(gridHeight, gridWidth))
+            var startX = if (FLAT_TOP === orientation) floor(gridSize / 2.0).toInt() else round(gridSize / 4.0).toInt()
+            val hexRadius = gridSize shr 1
             val minX = startX - hexRadius
             var y = 0
             while (y < gridSize) {
                 val distanceFromMid = abs(hexRadius - y)
                 for (x in max(startX, minX)..max(startX, minX) + hexRadius + hexRadius - distanceFromMid) {
-                    val gridZ = if (HexagonOrientation.FLAT_TOP === orientation) y - floor(gridSize / 4.0).toInt() else y
+                    val gridZ = if (orientation === FLAT_TOP) y - floor(gridSize / 4.0).toInt() else y
                     coords.add(CubeCoordinate(x, gridZ))
                 }
                 startX--
@@ -34,9 +38,7 @@ class HexagonalGridLayoutStrategy : GridLayoutStrategy() {
     }
 
     override fun checkParameters(gridHeight: Int, gridWidth: Int): Boolean {
-        val superResult = checkCommonCase(gridHeight, gridWidth)
-        val result = gridHeight == gridWidth && abs(gridHeight % 2) == 1
-        return result && superResult
+        return checkCommonCase(gridHeight, gridWidth) && (gridHeight == gridWidth) && abs(gridHeight % 2) == 1
     }
 
 }
