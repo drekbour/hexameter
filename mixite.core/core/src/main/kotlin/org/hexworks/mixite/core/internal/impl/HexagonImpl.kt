@@ -17,30 +17,24 @@ class HexagonImpl<T : SatelliteData> internal constructor(
         override val cubeCoordinate: CubeCoordinate,
         private val hexagonDataStorage: HexagonDataStorage<T>) : Hexagon<T> {
 
+    // Cube identity
+    override val id = cubeCoordinate.toAxialKey()
+    override val gridX = cubeCoordinate.gridX
+    override val gridY = cubeCoordinate.gridY
+    override val gridZ = cubeCoordinate.gridZ
+
+    // 2D identity
     override val vertices: List<Double>
     override val points: List<Point>
     override val externalBoundingBox: Rectangle
     override val internalBoundingBox: Rectangle
     override val center: Point = calculateCenter()
-
-    override val id: String
-        get() = cubeCoordinate.toAxialKey()
-
-    override val gridX: Int
-        get() = cubeCoordinate.gridX
-
-    override val gridY: Int
-        get() = cubeCoordinate.gridY
-
-    override val gridZ: Int
-        get() = cubeCoordinate.gridZ
-
     override val centerX = center.coordinateX
-
     override val centerY = center.coordinateY
 
+    // User identity
     override val satelliteData: Maybe<T>
-        get() = hexagonDataStorage.getSatelliteDataBy(cubeCoordinate)
+      get() = hexagonDataStorage.getSatelliteDataBy(cubeCoordinate)
 
     init {
         this.points = calculatePoints()
@@ -57,8 +51,8 @@ class HexagonImpl<T : SatelliteData> internal constructor(
 
         this.vertices = ArrayList(12)
         for (point in points) {
-            vertices.add(point.coordinateX)
-            vertices.add(point.coordinateY)
+            vertices += point.coordinateX
+            vertices += point.coordinateY
         }
     }
 
@@ -82,26 +76,21 @@ class HexagonImpl<T : SatelliteData> internal constructor(
             val angle = 2 * PI / 6 * (i + sharedData.orientation.coordinateOffset)
             val x = center.coordinateX + sharedData.radius * cos(angle)
             val y = center.coordinateY + sharedData.radius * sin(angle)
-            points.add(Point(x, y))
+            points += Point(x, y)
         }
         return points
     }
 
     override fun setSatelliteData(data: T) {
-        this.hexagonDataStorage.addCoordinate(cubeCoordinate, data)
+        hexagonDataStorage.addCoordinate(cubeCoordinate, data)
     }
 
     override fun clearSatelliteData() {
-        this.hexagonDataStorage.clearDataFor(cubeCoordinate)
+        hexagonDataStorage.clearDataFor(cubeCoordinate)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other == null || other !is HexagonImpl<*>) return false
-        return cubeCoordinate == other.cubeCoordinate
-    }
+    override fun equals(other: Any?) = other is HexagonImpl<*> && cubeCoordinate == other.cubeCoordinate
 
-    override fun hashCode(): Int {
-        return cubeCoordinate.hashCode()
-    }
+    override fun hashCode() = cubeCoordinate.hashCode()
 
 }
