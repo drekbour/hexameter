@@ -18,7 +18,7 @@ interface GridLayoutStrategy {
      *
      * @return All [CubeCoordinate] for the given grid.
      */
-    fun fetchGridCoordinates(gridData: GridData): Iterable<CubeCoordinate>
+    fun fetchGridCoordinates(gridData: GridData): Sequence<CubeCoordinate>
 
     /**
      * Checks whether the supplied parameters are valid for the given strategy.
